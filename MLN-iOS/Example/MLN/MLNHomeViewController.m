@@ -63,11 +63,6 @@ MLN_VIEW_IMPORT_WITH_ALIAS(self.luaShow, switch, mySwitch)
     [self.luaShow didMoveToParentViewController:self];
     
     [self.luaShow bindData:self.model key:@"userData"];
-    NSString *reg = @"^([_|a-z|A-Z][_|a-z|A-Z|0-9]*\\.)+";
-    NSString *text = @"as32a._3a._t4545.e";
-    NSRange rang = [text rangeOfString:reg options:NSRegularExpressionSearch];
-    NSLog(@">>>> %@",  [text substringWithRange:rang]);
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

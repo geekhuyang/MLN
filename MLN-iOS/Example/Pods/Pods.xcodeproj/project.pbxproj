@@ -203,6 +203,8 @@
 		307CC33B23D0774E0052DECD /* UIViewController+MLNKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 307CC33923D0774E0052DECD /* UIViewController+MLNKVO.m */; };
 		3090DEF623D45188005F3CF3 /* MLNDataHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 3090DEF423D45188005F3CF3 /* MLNDataHandler.h */; };
 		3090DEF723D45188005F3CF3 /* MLNDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3090DEF523D45188005F3CF3 /* MLNDataHandler.m */; };
+		3090DEFA23D567E6005F3CF3 /* NSObject+MLNKVO.h in Headers */ = {isa = PBXBuildFile; fileRef = 3090DEF823D567E6005F3CF3 /* NSObject+MLNKVO.h */; };
+		3090DEFB23D567E6005F3CF3 /* NSObject+MLNKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3090DEF923D567E6005F3CF3 /* NSObject+MLNKVO.m */; };
 		3093C5043008D9A194F77DD104FCE27F /* MLNSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 134F63BC8216555AD96E6047F173316B /* MLNSwitch.m */; };
 		30A6398F5A3F95D43BEEBF5BE25AA7F9 /* MJRefreshBackFooter.h in Headers */ = {isa = PBXBuildFile; fileRef = 79746D1B013224BE099BFADF6918E8CE /* MJRefreshBackFooter.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		30E9DB4DF86BC5CE1C1D77888FA7C014 /* NSMutableDictionary+MLNCore.h in Headers */ = {isa = PBXBuildFile; fileRef = AB848DC8AD35EE6AE4A006C76520FD48 /* NSMutableDictionary+MLNCore.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1429,6 +1431,8 @@
 		307CC33923D0774E0052DECD /* UIViewController+MLNKVO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MLNKVO.m"; sourceTree = "<group>"; };
 		3090DEF423D45188005F3CF3 /* MLNDataHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLNDataHandler.h; sourceTree = "<group>"; };
 		3090DEF523D45188005F3CF3 /* MLNDataHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLNDataHandler.m; sourceTree = "<group>"; };
+		3090DEF823D567E6005F3CF3 /* NSObject+MLNKVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+MLNKVO.h"; sourceTree = "<group>"; };
+		3090DEF923D567E6005F3CF3 /* NSObject+MLNKVO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MLNKVO.m"; sourceTree = "<group>"; };
 		30A2825831F510E5156E1E3E066D5D2D /* MLNThread.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MLNThread.h; sourceTree = "<group>"; };
 		30A9F430AB7F0A17328E0B3F9106B835 /* mln_inet.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = mln_inet.c; sourceTree = "<group>"; };
 		30AFCCB3B5329B135C2FD4E7D6ADE3E1 /* LNUsbTransporter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = LNUsbTransporter.m; sourceTree = "<group>"; };
@@ -3075,6 +3079,8 @@
 				E87C1913255AD081B767274A46D8FA2B /* MLNLiveKVObserverProtocol.h */,
 				307CC33823D0774E0052DECD /* UIViewController+MLNKVO.h */,
 				307CC33923D0774E0052DECD /* UIViewController+MLNKVO.m */,
+				3090DEF823D567E6005F3CF3 /* NSObject+MLNKVO.h */,
+				3090DEF923D567E6005F3CF3 /* NSObject+MLNKVO.m */,
 			);
 			path = KVO;
 			sourceTree = "<group>";
@@ -5252,6 +5258,7 @@
 				AAF8BAF92369BDB34BAC40EF53651F34 /* MLNLuaTable.h in Headers */,
 				D2CC6B3D906DDD13392FA3483A8E5ABC /* MLNMainRunLoopObserver.h in Headers */,
 				B26C0EFF9B398E9BA9645DD9297E4000 /* MLNNavigator.h in Headers */,
+				3090DEFA23D567E6005F3CF3 /* NSObject+MLNKVO.h in Headers */,
 				AC2FE35BD710791379239E54830DC8CF /* MLNNavigatorHandlerProtocol.h in Headers */,
 				D5CEB9757574839CCC7FAE114A82D1FB /* MLNNetworkReachability.h in Headers */,
 				95EF00648A9771BD2E8152F9738CBCE7 /* MLNNetworkReachabilityManager.h in Headers */,
@@ -6385,6 +6392,7 @@
 				426E769CA56A67C03688AB131191E116 /* MLNNavigator.m in Sources */,
 				9F7EC41D9B5DA8F5201973AFF3953F77 /* MLNNetworkReachability.m in Sources */,
 				9E108CFCFA62E18964AB488FC67A54F6 /* MLNNetworkReachabilityManager.m in Sources */,
+				3090DEFB23D567E6005F3CF3 /* NSObject+MLNKVO.m in Sources */,
 				050301F48D85491524106DECD2EC30BB /* MLNNinePatchImageFactory.m in Sources */,
 				65595A196C6A5D95FB7B46399C46401B /* MLNOvershotInterpolater.m in Sources */,
 				C085605F1FB63FAB4118D29E14CD4F63 /* MLNPoint.m in Sources */,

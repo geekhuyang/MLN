@@ -8,6 +8,8 @@
 
 #import "MLNDataBinding.h"
 #import "MLNKVObserverHelper.h"
+#import "MLNDataHandler.h"
+#import "NSObject+MLNKVO.h"
 #import <pthread.h>
 
 @interface MLNDataBinding () {
@@ -16,6 +18,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *dataMap;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, MLNKVObserverHelper *> *observerHelperMap;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, MLNDataHandler *> *dataHandlerMap;
 
 @end
 @implementation MLNDataBinding
@@ -25,6 +28,7 @@
     if (self = [super init]) {
         _dataMap = [NSMutableDictionary dictionary];
         _observerHelperMap = [NSMutableDictionary dictionary];
+        _dataHandlerMap = [NSMutableDictionary dictionary];
         pthread_mutex_init(&_lock, NULL);
     }
     return self;
@@ -44,23 +48,34 @@
 
 - (void)updateDataForKeyPath:(NSString *)keyPath value:(id)value
 {
-    id data = nil;
+    NSString *dataHandlerKey = [self dataHandlerKeyWithKeyPath:keyPath];
+    MLNDataHandler *dataHandler = [self.dataHandlerMap objectForKey:dataHandlerKey];
     NSString *key = nil;
-    BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
-    if (success) {
-        [data setValue:value forKeyPath:key];
+    if (!dataHandler) {
+        id data = nil;
+        BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
+        if (success) {
+            dataHandler = [[MLNDataHandler alloc] initWithData:data dataHandlerKey:dataHandlerKey];
+            [self.dataHandlerMap setObject:dataHandler forKey:dataHandlerKey];
+        }
     }
+    [dataHandler updateDataForKeyPath:keyPath value:value];
 }
 
 - (id __nullable)dataForKeyPath:(NSString *)keyPath
 {
-    id data = nil;
+    NSString *dataHandlerKey = [self dataHandlerKeyWithKeyPath:keyPath];
+    MLNDataHandler *dataHandler = [self.dataHandlerMap objectForKey:dataHandlerKey];
     NSString *key = nil;
-    BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
-    if (success) {
-        data = [data valueForKeyPath:key];
+    if (!dataHandler) {
+        id data = nil;
+        BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
+        if (success) {
+            dataHandler = [[MLNDataHandler alloc] initWithData:data dataHandlerKey:dataHandlerKey];
+            [self.dataHandlerMap setObject:dataHandler forKey:dataHandlerKey];
+        }
     }
-    return data;
+    return [dataHandler dataForKeyPath:keyPath];
 }
 
 - (void)addDataObserver:(NSObject<MLNKVObserverProtocol> *)observer forKeyPath:(NSString *)keyPath
@@ -80,6 +95,9 @@
     }
     // new
     id data = nil;
+    userData.text
+    userData
+    text
     NSString *key = nil;
     BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
     if (success) {
@@ -109,20 +127,7 @@
                 if (!akey) {
                     return NO;
                 }
-                // setter
-                // @note ⚠️ 这里的key要考虑是不是isXXX，或者对应的getter方法是不是isXXX类型
-                NSString *setterKey = [NSString stringWithFormat:@"set%@:",[akey capitalizedString]];
-                NSString *noIsSetterKey = nil;
-                if ([akey hasPrefix:@"is"]) {
-                    NSString *tmp = [akey substringWithRange:NSMakeRange(0, @"is".length)];
-                    noIsSetterKey = [NSString stringWithFormat:@"set%@:",[tmp capitalizedString]];
-                }
-                // getter
-                NSString *getterKey = [NSString stringWithFormat:@"is%@",[akey capitalizedString]];
-                if (!([data respondsToSelector:NSSelectorFromString(akey)] ||
-                      [data respondsToSelector:NSSelectorFromString(getterKey)]) ||
-                    !([data respondsToSelector:NSSelectorFromString(setterKey)] ||
-                      [data respondsToSelector:NSSelectorFromString(noIsSetterKey)])) {
+                if (![data mln_containsKeyPath:akey]) {
                     return NO;
                 }
                 if (i == keyPathArray.count - 2) {
@@ -137,7 +142,7 @@
     return NO;
 }
 
-- (NSString *)dataKeyWithKeyPath:(NSString *)keyPath
+- (NSString *)dataHandlerKeyWithKeyPath:(NSString *)keyPath
 {
     NSString *reg = @"^([_|a-z|A-Z][_|a-z|A-Z|0-9]*\\.)+";
     NSRange rang = [keyPath rangeOfString:reg options:NSRegularExpressionSearch];
