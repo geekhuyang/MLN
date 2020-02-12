@@ -63,6 +63,7 @@ MLN_VIEW_IMPORT_WITH_ALIAS(self.luaShow, switch, mySwitch)
     [self.luaShow didMoveToParentViewController:self];
     
     [self.luaShow bindData:self.model key:@"userData"];
+    UIFont
 }
 
 - (void)viewWillAppear:(BOOL)animated {

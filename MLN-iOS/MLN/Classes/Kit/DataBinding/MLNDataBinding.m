@@ -95,9 +95,6 @@
     }
     // new
     id data = nil;
-    userData.text
-    userData
-    text
     NSString *key = nil;
     BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
     if (success) {
