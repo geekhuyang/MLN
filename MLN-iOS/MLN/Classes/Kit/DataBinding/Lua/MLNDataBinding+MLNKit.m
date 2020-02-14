@@ -20,6 +20,13 @@
     [kitViewController addDataObserver:observer forKeyPath:keyPath];
 }
 
++ (void)lua_bindDataListForKeyPath:(NSString *)keyPath handler:(MLNBlock *)handler
+{
+    MLNKitViewController *kitViewController = (MLNKitViewController *)MLN_KIT_INSTANCE([self mln_currentLuaCore]).viewController;
+    NSObject<MLNKVObserverProtocol> *observer = [[MLNBlockObserver alloc] initWithBloclk:handler];
+    [kitViewController addDataObserver:observer forKeyPath:keyPath];
+}
+
 + (id __nullable)lua_dataForKeyPath:(NSString *)keyPath
 {
     MLNKitViewController *kitViewController = (MLNKitViewController *)MLN_KIT_INSTANCE([self mln_currentLuaCore]).viewController;

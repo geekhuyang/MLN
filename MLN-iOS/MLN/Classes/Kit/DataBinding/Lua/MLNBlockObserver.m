@@ -40,7 +40,6 @@
 
 - (void)notifyLiveForKeyPath:(NSString *)keyPath newValue:(id)newValue oldValue:(id)oldValue
 {
-    NSLog(@">>>>> notifyLiveForKeyPath");
     [self.block addObjArgument:newValue];
     [self.block addObjArgument:oldValue];
     [self.block callIfCan];

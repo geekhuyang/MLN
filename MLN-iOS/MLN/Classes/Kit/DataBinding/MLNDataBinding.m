@@ -127,7 +127,9 @@
                 if (![data mln_containsKeyPath:akey]) {
                     return NO;
                 }
-                if (i == keyPathArray.count - 2) {
+                if ([data isKindOfClass:[NSArray class]]) {
+                    data = [(NSArray *)data objectAtIndex:[akey integerValue]];
+                } else if (i == keyPathArray.count - 2) {
                     data = [data valueForKey:akey];
                 }
             }
@@ -141,7 +143,7 @@
 
 - (NSString *)dataHandlerKeyWithKeyPath:(NSString *)keyPath
 {
-    NSString *reg = @"^([_|a-z|A-Z][_|a-z|A-Z|0-9]*\\.)+";
+    NSString *reg = @"^(([_|a-z|A-Z][_|a-z|A-Z|0-9]*\\.)|([0-9]+\\.))+";
     NSRange rang = [keyPath rangeOfString:reg options:NSRegularExpressionSearch];
     if (rang.location != NSNotFound) {
         return [keyPath substringWithRange:rang];
