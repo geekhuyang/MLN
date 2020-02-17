@@ -1,9 +1,8 @@
 //
-//  MLNKVObserverHelper.h
-//  LuaNative
+//  MLNKVOBaseObserverHelper.h
+//  MLN
 //
-//  Created by tamer on 2020/1/15.
-//  Copyright © 2020 liu.xu_1586. All rights reserved.
+//  Created by tamer on 2020/2/17.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,7 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MLNKVObserverHelper : NSObject
+/// 抽象基类
+@interface MLNKVOBaseObserverHelper : NSObject {
+    @protected NSMutableSet<NSObject<MLNKVObserverProtocol> *> *_obsMSet;
+}
 
 @property (nonatomic, weak, readonly) NSObject *targetObject;
 @property (nonatomic, strong, readonly) NSSet<NSObject<MLNKVObserverProtocol> *> *observerSet;

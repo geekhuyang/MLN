@@ -28,6 +28,9 @@
 - (id __nullable)dataForKeyPath:(NSString *)keyPath
 {
     NSString *key = [keyPath stringByReplacingOccurrencesOfString:self.dataHandlerKey withString:@""];
+    if ([self.data isKindOfClass:[NSArray class]]) {
+        return [(NSArray *)self.data objectAtIndex:[keyPath integerValue]];
+    }
     return [self.data valueForKeyPath:key];
 }
 

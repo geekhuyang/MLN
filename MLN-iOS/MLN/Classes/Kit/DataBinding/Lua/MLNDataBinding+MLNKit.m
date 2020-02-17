@@ -10,6 +10,8 @@
 #import "MLNStaticExporterMacro.h"
 #import "MLNKitHeader.h"
 #import "MLNKitViewController.h"
+#import "MLNListViewObserver.h"
+
 
 @implementation MLNDataBinding (MLNKit)
 
@@ -17,6 +19,13 @@
 {
     MLNKitViewController *kitViewController = (MLNKitViewController *)MLN_KIT_INSTANCE([self mln_currentLuaCore]).viewController;
     NSObject<MLNKVObserverProtocol> *observer = [[MLNBlockObserver alloc] initWithBloclk:handler];
+    [kitViewController addDataObserver:observer forKeyPath:keyPath];
+}
+
++ (void)lua_bindListViewForKeyPath:(NSString *)keyPath listView:(UIView *)listView
+{
+    MLNKitViewController *kitViewController = (MLNKitViewController *)MLN_KIT_INSTANCE([self mln_currentLuaCore]).viewController;
+    NSObject<MLNKVObserverProtocol> *observer = [[MLNListViewObserver alloc] initWithListView:listView];
     [kitViewController addDataObserver:observer forKeyPath:keyPath];
 }
 

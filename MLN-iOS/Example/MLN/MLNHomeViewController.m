@@ -63,10 +63,6 @@ MLN_VIEW_IMPORT_WITH_ALIAS(self.luaShow, switch, mySwitch)
     [self.luaShow didMoveToParentViewController:self];
     
     [self.luaShow bindData:self.model key:@"userData"];
-    
-    NSArray *array = @[@"haha",@"kkk", @"jjjj"];
-    NSString *v = [array valueForKey:@"1"];
-    NSLog(@"");
 }
 
 - (void)viewWillAppear:(BOOL)animated {

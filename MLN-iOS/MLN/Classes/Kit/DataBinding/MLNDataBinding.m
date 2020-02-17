@@ -7,7 +7,7 @@
 //
 
 #import "MLNDataBinding.h"
-#import "MLNKVObserverHelper.h"
+#import "MLNKVOHelperFactory.h"
 #import "MLNDataHandler.h"
 #import "NSObject+MLNKVO.h"
 #import <pthread.h>
@@ -17,7 +17,7 @@
 }
 
 @property (nonatomic, strong) NSMutableDictionary *dataMap;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, MLNKVObserverHelper *> *observerHelperMap;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, MLNKVOBaseObserverHelper *> *observerHelperMap;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, MLNDataHandler *> *dataHandlerMap;
 
 @end
@@ -87,7 +87,7 @@
     }
     // cache
     pthread_mutex_lock(&_lock);
-    MLNKVObserverHelper *helper = [self.observerHelperMap objectForKey:keyPath];
+    MLNKVOBaseObserverHelper *helper = [self.observerHelperMap objectForKey:keyPath];
     pthread_mutex_unlock(&_lock);
     if (helper) {
         [helper addObserver:observer];
@@ -98,7 +98,7 @@
     NSString *key = nil;
     BOOL success = [self parseByKeyPath:keyPath retData:&data retKey:&key];
     if (success) {
-        helper = [[MLNKVObserverHelper alloc] initWithTargetObject:data keyPath:key];
+        helper = [MLNKVOHelperFactory createHelperWithTargetObject:data keyPath:key];
         [helper addObserver:observer];
         pthread_mutex_lock(&_lock);
         [self.dataMap setValue:helper forKey:keyPath];

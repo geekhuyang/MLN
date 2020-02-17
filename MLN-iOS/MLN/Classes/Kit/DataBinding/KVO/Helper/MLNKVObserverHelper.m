@@ -8,24 +8,14 @@
 
 #import "MLNKVObserverHelper.h"
 
-@interface MLNKVObserverHelper () {
-    NSMutableSet<NSObject<MLNKVObserverProtocol> *> *_obsMSet;
-}
-
+@interface MLNKVObserverHelper ()
 @end
 @implementation MLNKVObserverHelper
 
 - (instancetype)initWithTargetObject:(NSObject *)targetObject keyPath:(NSString *)keyPath
 {
     if (self = [super init]) {
-        NSParameterAssert(targetObject);
-        NSParameterAssert(keyPath);
-        if (targetObject && keyPath) {
-            _obsMSet = [NSMutableSet set];
-            _targetObject = targetObject;
-            _keyPath = keyPath;
-            [targetObject addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-        }
+        [targetObject addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
     }
     return self;
 }
@@ -33,26 +23,6 @@
 - (void)dealloc
 {
     [self.targetObject removeObserver:self forKeyPath:self.keyPath];
-}
-
-- (NSSet<NSObject<MLNKVObserverProtocol> *> *)observerSet
-{
-    return _obsMSet.copy;
-}
-
-- (void)addObserver:(NSObject<MLNKVObserverProtocol> *)observer
-{
-    if (dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL) == dispatch_queue_get_label(dispatch_get_main_queue())) {
-        if (![_obsMSet containsObject:observer]) {
-            [_obsMSet addObject:observer];
-        }
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (![self->_obsMSet containsObject:observer]) {
-                [self->_obsMSet addObject:observer];
-            }
-        });
-    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context

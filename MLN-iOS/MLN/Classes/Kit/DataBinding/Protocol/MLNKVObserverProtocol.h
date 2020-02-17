@@ -13,6 +13,7 @@
 
 @protocol MLNKVObserverProtocol <NSObject>
 
+@property (nonatomic, weak, readonly) NSObject *targetObject;
 - (void)notify:(NSString *)keyPath newValue:(id)newValue oldValue:(id)oldValue;
 
 @end
