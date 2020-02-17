@@ -164,13 +164,13 @@
     }
     NSMutableString *ret = [NSMutableString string];
     for (NSString *word in keyPathArray) {
-        // 至最后一个字符串停止
-        if ([word isEqualToString:keyPathArray.lastObject]) {
-            return ret.copy;
-        }
         // key是否符合规则，要么为属性，要么为数字下标
         if (![self isPropertyName:word] && ![self isNumber:word]) {
             return nil;
+        }
+        // 至最后一个字符串停止
+        if ([word isEqualToString:keyPathArray.lastObject]) {
+            return ret.copy;
         }
         [ret appendFormat:@"%@.", word];
     }
