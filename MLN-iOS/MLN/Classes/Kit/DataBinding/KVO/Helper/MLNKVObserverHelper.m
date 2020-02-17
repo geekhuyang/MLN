@@ -14,7 +14,7 @@
 
 - (instancetype)initWithTargetObject:(NSObject *)targetObject keyPath:(NSString *)keyPath
 {
-    if (self = [super init]) {
+    if (self = [super initWithTargetObject:targetObject keyPath:keyPath]) {
         [targetObject addObserver:self forKeyPath:keyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
     }
     return self;

@@ -92,19 +92,19 @@ MLN_VIEW_IMPORT_WITH_ALIAS(self.luaShow, switch, mySwitch)
 //    [label lua_reloadData];
     
     self.model.text = @"热重载";
-    self.label.backgroundColor = [UIColor redColor];
-    self.mySwitch.backgroundColor = [UIColor redColor];
+//    self.label.backgroundColor = [UIColor redColor];
+//    self.mySwitch.backgroundColor = [UIColor redColor];
 }
 
 - (IBAction)demoListButtonAction:(id)sender {
-    MLNDemoListViewController *listVC = [[MLNDemoListViewController alloc] init];
-    listVC.model = self.model;
-    self.label.backgroundColor = [UIColor yellowColor];
-    [self.navigationController pushViewController:listVC animated:YES];
+//    MLNDemoListViewController *listVC = [[MLNDemoListViewController alloc] init];
+//    listVC.model = self.model;
+//    self.label.backgroundColor = [UIColor yellowColor];
+//    [self.navigationController pushViewController:listVC animated:YES];
 //     MLNCollectionView *label = (MLNCollectionView *)[self.luaShow findViewById:@"collectionView"];
 //    label.adapter = self;
 //    [label lua_reloadData];
-//    self.model.text = @"例子";
+    self.model.text = @"例子";
 }
 
 - (IBAction)meilishuoButtonAction:(id)sender {
@@ -114,7 +114,7 @@ MLN_VIEW_IMPORT_WITH_ALIAS(self.luaShow, switch, mySwitch)
 //    label.adapter = self;
 //    [label lua_reloadData];
     self.model.text = @"Demo工程";
-    self.label.backgroundColor = [UIColor blueColor];
+//    self.label.backgroundColor = [UIColor blueColor];
 }
 
 @synthesize collectionView;

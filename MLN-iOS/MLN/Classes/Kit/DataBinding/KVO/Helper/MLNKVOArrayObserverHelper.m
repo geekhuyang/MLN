@@ -17,7 +17,7 @@
 
 - (instancetype)initWithTargetObject:(NSObject *)targetObject keyPath:(NSString *)keyPath
 {
-    if (self = [super init]) {
+    if (self = [super  initWithTargetObject:targetObject keyPath:keyPath]) {
         __weak typeof(self) wself = self;
         self.handler = ^(MLNArrayChangeType type, NSMutableArray * _Nonnull newArray, NSArray * _Nonnull oldArray) {
             __weak typeof(wself) sself = wself;
