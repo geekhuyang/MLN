@@ -39,6 +39,7 @@
     pthread_mutex_destroy(&_lock);
 }
 
+/// 指定数据-key的映射关系
 - (void)bindData:(NSObject *)data key:(NSString *)key
 {
     pthread_mutex_lock(&_lock);
@@ -46,9 +47,11 @@
     pthread_mutex_unlock(&_lock);
 }
 
+/// 更新指定数据，（添加数据缓存功能，避免重复解析数据）
 - (void)updateDataForKeyPath:(NSString *)keyPath value:(id)value
 {
     NSString *dataHandlerKey = [self dataHandlerKeyWithKeyPath:keyPath];
+    NSAssert(dataHandlerKey, @"KeyPath不符合规则");
     MLNDataHandler *dataHandler = [self.dataHandlerMap objectForKey:dataHandlerKey];
     NSString *key = nil;
     if (!dataHandler) {
@@ -62,9 +65,12 @@
     [dataHandler updateDataForKeyPath:keyPath value:value];
 }
 
+/// 获取指定数据，（添加数据缓存功能，避免重复解析数据）
 - (id __nullable)dataForKeyPath:(NSString *)keyPath
 {
     NSString *dataHandlerKey = [self dataHandlerKeyWithKeyPath:keyPath];
+    NSAssert(dataHandlerKey, @"KeyPath不符合规则");
+    // 获取缓存
     MLNDataHandler *dataHandler = [self.dataHandlerMap objectForKey:dataHandlerKey];
     NSString *key = nil;
     if (!dataHandler) {
@@ -78,6 +84,7 @@
     return [dataHandler dataForKeyPath:keyPath];
 }
 
+/// 添加对应数据的监听者
 - (void)addDataObserver:(NSObject<MLNKVObserverProtocol> *)observer forKeyPath:(NSString *)keyPath
 {
     NSParameterAssert(keyPath);
@@ -106,6 +113,11 @@
     }
 }
 
+/// 从“user.config. ... device.name” 中获取“user.config. ... device”的device 对象和 “name” key
+/// @param keyPath 原有key，“user.config. ... device.name”
+/// @param retData 对应的数据， “user.config. ... device”的device
+/// @param retKey 对应的key，“name” key
+/// @return 是否能正常解析
 - (BOOL)parseByKeyPath:(NSString *)keyPath retData:(id *)retData retKey:(NSString **)retKey
 {
     if (retData == NULL || retKey == NULL) {
@@ -141,14 +153,48 @@
     return NO;
 }
 
+/// 从“user.config. ... device.name” 中获取“user.config. ... device.”
+/// @param keyPath  类似“user.config. ... device.name”字符串
+/// @return  获取类似“user.config. ... device.”的字符串
 - (NSString *)dataHandlerKeyWithKeyPath:(NSString *)keyPath
 {
-    NSString *reg = @"^(([_|a-z|A-Z][_|a-z|A-Z|0-9]*\\.)|([0-9]+\\.))+";
-    NSRange rang = [keyPath rangeOfString:reg options:NSRegularExpressionSearch];
-    if (rang.location != NSNotFound) {
-        return [keyPath substringWithRange:rang];
+    NSArray<NSString *> *keyPathArray = [keyPath componentsSeparatedByString:@"."];
+    if (keyPathArray.count <= 1) {
+        return nil;
     }
-    return nil;
+    NSMutableString *ret = [NSMutableString string];
+    for (NSString *word in keyPathArray) {
+        // 至最后一个字符串停止
+        if ([word isEqualToString:keyPathArray.lastObject]) {
+            return ret.copy;
+        }
+        // key是否符合规则，要么为属性，要么为数字下标
+        if (![self isPropertyName:word] && ![self isNumber:word]) {
+            return nil;
+        }
+        [ret appendFormat:@"%@.", word];
+    }
+    return ret.copy;
+}
+
+- (BOOL)isPropertyName:(NSString *)word
+{
+    NSString *reg = @"^[_|a-z|A-Z][_|a-z|A-Z|0-9]*$";
+    NSRange rang = [word rangeOfString:reg options:NSRegularExpressionSearch];
+    if (rang.location != NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isNumber:(NSString *)word
+{
+    NSString *reg = @"^[0-9]+$";
+    NSRange rang = [word rangeOfString:reg options:NSRegularExpressionSearch];
+    if (rang.location != NSNotFound) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
